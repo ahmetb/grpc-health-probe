@@ -34,10 +34,12 @@ jobs:
           --directory=dist/grpc-health-probe_linux_amd64 . |\
             docker import \
               --change 'ENTRYPOINT ["/grpc_health_probe"]' \
-              --change 'LABEL org.opencontainers.image.title="${{ github.repository }}"' \
-              --change 'LABEL org.opencontainers.image.source="https://github.com/${{ github.repository }}"' \
-              --change "LABEL org.opencontainers.image.version=${tag}" \
-              --change 'LABEL org.opencontainers.image.revision="${{ github.sha }}"' \
+              --change 'LABEL maintainer "${{ github.repository_owner }}"' \
+              --change 'LABEL org.label-schema.name="${{ github.repository }}"' \
+              --change 'LABEL org.label-schema.schema-version=1.0' \
+              --change 'LABEL org.label-schema.vcs="https://github.com/${{ github.repository }}"' \
+              --change "LABEL org.label-schema.version=${tag}" \
+              --change 'LABEL org.label-schema.vcs-ref="${{ github.sha }}"' \
               --platform linux/amd64 \
               - "ghcr.io/${{ github.repository }}:${tag}"
         docker push "ghcr.io/${{ github.repository }}:${tag}"
