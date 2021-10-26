@@ -26,10 +26,12 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Build and push multi-arch container images
       run: |
-        set -xeuo pipefail
+        set -euo pipefail
         tag="$(git describe --tag --always --dirty)"
         export KO_DOCKER_REPO="ghcr.io/${{ github.repository }}"
         export PATH="$(go env GOPATH)/bin:$PATH"
+        echo "${{ github.token }}" | ko login ghcr.io --username ignored --password-stdin
+        set -x
         img="$(ko publish --platform=all .)"
         echo "Built image: $img"
         crane tag "$img" "$tag"
