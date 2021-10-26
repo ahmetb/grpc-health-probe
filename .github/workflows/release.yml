@@ -4,7 +4,7 @@ on:
     tags:
     - 'v*.*.*'
 jobs:
-  goreleaser:
+  release:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
@@ -15,9 +15,9 @@ jobs:
         go-version: 1.17
     - name: Setup ko
       run:  go install github.com/google/ko@latest
-    - name: Setup crane
-      run:  go install github.com/google/go-containerregistry/cmd/crane@latest
-    - name: GoReleaser
+ #   - name: Setup crane
+ #     run:  go install github.com/google/go-containerregistry/cmd/crane@latest
+    - name: Binary builds with GoReleaser
       uses: goreleaser/goreleaser-action@v1
       with:
         version: latest
@@ -32,6 +32,4 @@ jobs:
         export PATH="$(go env GOPATH)/bin:$PATH"
         echo "${{ github.token }}" | ko login ghcr.io --username ignored --password-stdin
         set -x
-        img="$(ko publish --platform=all .)"
-        echo "Built image: $img"
-        crane tag "$img" "$tag"
+        $(ko publish --bare --tags "$tag" --platform=all .
