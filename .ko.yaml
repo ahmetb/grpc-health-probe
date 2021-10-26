@@ -1,0 +1,7 @@
+builds:
+- id: main
+  flags:
+  - -tags
+  - netgo
+  ldflags:
+  - -w
