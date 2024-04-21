@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master  # Adjust to match the name of your main branch
-    paths_ignore:
+    paths-ignore:
       - .github/**
       - README.md
       - LICENSE
