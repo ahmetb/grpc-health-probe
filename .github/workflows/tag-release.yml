@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - master  # Adjust to match the name of your main branch
+    paths_ignore:
+      - .github/**
+      - README.md
+      - LICENSE
 
 jobs:
   tag:
